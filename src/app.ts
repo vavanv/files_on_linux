@@ -1,8 +1,10 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
 
-import { getMorgan, getLogger } from "./logging/index";
+import { FileRoutes } from './routes/FileRoutes';
+
+import { getMorgan, getLogger } from './logging/index';
 
 // import RedisClient from './redis/index';
 
@@ -12,10 +14,12 @@ class App {
   constructor() {
     this.express = express();
     this.middleware();
+
+    new FileRoutes().routes(this.express);
   }
 
   private middleware(): void {
-    this.express.disable("x-powered-by");
+    this.express.disable('x-powered-by');
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     this.express.use(getMorgan(getLogger()));
     this.express.use(cors());
